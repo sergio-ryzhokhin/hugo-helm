@@ -1,0 +1,9 @@
+nameOverride:
+nginxVersion: 1.29.2
+webReplicas: 1
+
+# istioIngressGatewayName represents name of the shared Istio Gateway to expose Hugo through
+istioIngressGatewayName: ingressgateway
+
+# domain value is domain name to use for Kubernetes Dashboard
+domain: localhost
