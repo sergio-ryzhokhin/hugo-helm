@@ -1,0 +1,27 @@
+{{- if .Values.localPV.enabled }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ template "hugo.name" . }}-web
+  labels:
+    {{- include "hugo.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+    - ReadOnlyMany
+  capacity:
+    storage: {{ .Values.PVC.storageCapacity }}
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: {{ .Values.localPV.storageClassName | quote }}
+  local:
+    path: {{ required "Path for Local Persistent Volume is required." .Values.localPV.path | quote }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+              - {{ required "Hostname for node affinity og Local Persistent Volume is required." .Values.localPV.affinityHostname | quote }}
+{{- end -}}

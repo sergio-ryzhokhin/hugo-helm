@@ -17,6 +17,10 @@ spec:
         app.kubernetes.io/name: {{ template "hugo.name" . }}-web
         {{- include "hugo.labels" . | nindent 8 }}
     spec:
+      volumes:
+        - name: {{ template "hugo.name" . }}-web
+          persistentVolumeClaim:
+            claimName: {{ template "hugo.name" . }}-web
       containers:
         - name: {{ template "hugo.name" . }}-web
           image: nginx:{{ .Values.nginxVersion }}
@@ -24,3 +28,6 @@ spec:
             - name: web
               containerPort: 80
               protocol: TCP
+          volumeMounts:
+            - mountPath: "/usr/share/nginx/html"
+              name: {{ template "hugo.name" . }}-web

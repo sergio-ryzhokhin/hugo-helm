@@ -7,3 +7,13 @@ istioIngressGatewayName: ingressgateway
 
 # domain value is domain name to use for Kubernetes Dashboard
 domain: localhost
+
+PVC:
+  storageClass: local-storage
+  storageCapacity: 100Mi
+
+localPV:
+  enabled: false
+  storageClassName: local-storage
+  path:
+  affinityHostname:
